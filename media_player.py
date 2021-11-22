@@ -1,4 +1,6 @@
 """Support for HTD MC Series"""
+import logging
+_LOGGER = logging.getLogger(__name__)
 from homeassistant.components.media_player import PLATFORM_SCHEMA, MediaPlayerEntity
 from homeassistant.components.media_player.const import (
     SUPPORT_SELECT_SOURCE,
@@ -87,7 +89,9 @@ class HtdDevice(MediaPlayerEntity):
         return self.zone_info["vol"] / MAX_HTD_VOLUME
 
     def set_volume_level(self, new_volume):
+        _LOGGER(f"volume level: {new_volume}")
         new_vol = int(MAX_HTD_VOLUME * new_volume)
+        _LOGGER(f"new level: {new_vol}")
         self.client.set_volume(self.zone, new_vol)
 
     @property
