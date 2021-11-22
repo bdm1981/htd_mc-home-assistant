@@ -114,7 +114,7 @@ class HtdDevice(MediaPlayerEntity):
 
     @property
     def source_list(self):
-        return filter(hide_source, self.sources)
+        return list(filter(hide_source, self.sources))
 
     @property
     def media_title(self):
