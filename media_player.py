@@ -1,7 +1,13 @@
 """Support for HTD MC Series"""
-import logging
-_LOGGER = logging.getLogger(__name__)
-from homeassistant.components.media_player import PLATFORM_SCHEMA, MediaPlayerEntity
+from .htd_mc import HtdMcClient, MAX_HTD_VOLUME
+from . import DOMAIN, CONF_ZONES
+from homeassistant.const import (
+    CONF_HOST,
+    CONF_NAME,
+    STATE_OFF,
+    STATE_ON,
+    STATE_UNKNOWN,
+)
 from homeassistant.components.media_player.const import (
     SUPPORT_SELECT_SOURCE,
     SUPPORT_TURN_OFF,
@@ -10,16 +16,10 @@ from homeassistant.components.media_player.const import (
     SUPPORT_VOLUME_SET,
     SUPPORT_VOLUME_STEP,
 )
-from homeassistant.const import (
-    CONF_HOST,
-    CONF_NAME,
-    STATE_OFF,
-    STATE_ON,
-    STATE_UNKNOWN,
-)
+from homeassistant.components.media_player import PLATFORM_SCHEMA, MediaPlayerEntity
+import logging
+_LOGGER = logging.getLogger(__name__)
 
-from . import DOMAIN, CONF_ZONES
-from .htd_mc import HtdMcClient, MAX_HTD_VOLUME
 
 SUPPORT_HTD_MC = (
     SUPPORT_SELECT_SOURCE
@@ -90,11 +90,11 @@ class HtdDevice(MediaPlayerEntity):
 
     def volume_up(self):
         self.client.volume_up(self.zone)
-        self.client.query_zone(self.zone)
+        self.client.set_power(self.zone, 1)
 
     def volume_down(self):
         self.client.volume_down(self.zone)
-        self.client.query_zone(self.zone)
+        self.client.set_power(self.zone, 1)
 
     @property
     def is_volume_muted(self):
