@@ -71,7 +71,7 @@ class HtdMcClient:
                 _LOGGER.debug(self.parse_message(cmd, i, zone_number))
 
             if not success:
-                _LOGGER.warning(f"Update for Zone #{zone_number} failed.")
+                _LOGGER.debug(f"Update for Zone #{zone_number} failed.")
                 print(f"Update for Zone #{zone_number} failed.")
 
         elif len(message) == 14:
@@ -96,12 +96,12 @@ class HtdMcClient:
             self.zones[zone]["vol"] = message[9] - 196 if message[9] else 0
             self.zones[zone]["mute"] = "on" if (message[4] & 1 << 1) else "off"
 
-            _LOGGER.warning(
+            _LOGGER.debug(
                 f"Command for Zone #{zone} retrieved (requested #{zone_number}) --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
             )
             return True
         else:
-            _LOGGER.warning(
+            _LOGGER.debug(
                 f"Sent command for Zone #{zone_number} but got #{zone} --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
             )
 
@@ -110,11 +110,11 @@ class HtdMcClient:
     def set_source(self, zone, input):
         computed = 1
         if zone not in range(1, 12):
-            _LOGGER.warning("Invalid Zone")
+            _LOGGER.debug("Invalid Zone")
             return
 
         if input not in range(1, 18):
-            _LOGGER.warning("invalid input number")
+            _LOGGER.debug("invalid input number")
             return
 
         if input >= 1 and input <= 12:
@@ -130,7 +130,7 @@ class HtdMcClient:
 
     def volume_up(self, zone):
         if zone not in range(1, 12):
-            _LOGGER.warning("Invalid Zone")
+            _LOGGER.debug("Invalid Zone")
             return
 
         zone_info = self.query_zone(zone)
@@ -142,7 +142,7 @@ class HtdMcClient:
 
     def volume_down(self, zone):
         if zone not in range(1, 12):
-            _LOGGER.warning("Invalid Zone")
+            _LOGGER.debug("Invalid Zone")
             return
 
         zone_info = self.query_zone(zone)
@@ -153,20 +153,20 @@ class HtdMcClient:
             self.send_command(cmd, zone)
 
     def set_volume(self, zone, vol):
-        _LOGGER.warning("Set Volume")
+        _LOGGER.debug("Set Volume")
         if vol not in range(0, MAX_HTD_VOLUME):
-            _LOGGER.warning("Invald Volume")
+            _LOGGER.debug("Invald Volume")
             return
 
         zone_info = self.query_zone(zone)
-        _LOGGER.warning(f"Current Volume: {zone_info['vol']}")
+        _LOGGER.debug(f"Current Volume: {zone_info['vol']}")
 
         vol_diff = vol - zone_info["vol"]
         start_time = time.time()
 
         setVol = vol + 0xC4
 
-        _LOGGER.warning(f"Setting Volume: {setVol}")
+        _LOGGER.debug(f"Setting Volume: {setVol}")
 
         if vol_diff < 0:
             for k in range(abs(vol_diff)):
@@ -181,7 +181,7 @@ class HtdMcClient:
 
     def toggle_mute(self, zone):
         if zone not in range(1, 12):
-            _LOGGER.warning("Invalid Zone")
+            _LOGGER.debug("Invalid Zone")
             return
 
         if self.zones[zone]["mute"] == "off":
@@ -193,16 +193,16 @@ class HtdMcClient:
 
     def mute_off(self, zone):
         if zone not in range(1, 7):
-            _LOGGER.warning("Invalid Zone")
+            _LOGGER.debug("Invalid Zone")
             return
 
         cmd = bytearray([0x02, 0x00, zone, 0x04, 0x1F])
         self.send_command(cmd, zone)
 
     def query_zone(self, zone):
-        _LOGGER.warning("Query Zone")
+        _LOGGER.debug("Query Zone")
         if zone not in range(1, 12):
-            _LOGGER.warning("Invalid Zone")
+            _LOGGER.debug("Invalid Zone")
             return
 
         cmd = bytearray([0x02, 0x00, zone, 0x05, 0x00])
@@ -214,11 +214,11 @@ class HtdMcClient:
 
     def set_power(self, zone, pwr):
         if zone not in range(0, 12):
-            _LOGGER.warning("Invalid Zone")
+            _LOGGER.debug("Invalid Zone")
             return
 
         if pwr not in [0, 1]:
-            _LOGGER.warning("invalid power command")
+            _LOGGER.debug("invalid power command")
             return
 
         if zone == 0:

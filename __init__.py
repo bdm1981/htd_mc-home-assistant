@@ -6,9 +6,6 @@ from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PASSWORD, CONF_USERNA
 from homeassistant.helpers import config_validation as cv, discovery
 from homeassistant.core import HomeAssistant
 import voluptuous as vol
-import logging
-
-_LOGGER = logging.getLogger(__name__)
 
 
 DOMAIN = "htd_mc"
