@@ -86,28 +86,26 @@ class HtdMcClient:
         if len(message) != 14:
             return False
 
-        return True
+        zone = message[2]
 
-        # zone = message[2]
+        # it seems that even though we send one zone we may not get what we want
+        if zone in range(1, 12):
+            self.zones[zone]["power"] = "on" if (
+                message[4] & 1 << 0) else "off"
+            self.zones[zone]["source"] = message[8] + 1
+            self.zones[zone]["vol"] = message[9] - 196 if message[9] else 0
+            self.zones[zone]["mute"] = "on" if (message[4] & 1 << 1) else "off"
 
-        # # it seems that even though we send one zone we may not get what we want
-        # if zone in range(1, 12):
-        #     self.zones[zone]["power"] = "on" if (
-        #         message[4] & 1 << 0) else "off"
-        #     self.zones[zone]["source"] = message[8] + 1
-        #     self.zones[zone]["vol"] = message[9] - 196 if message[9] else 0
-        #     self.zones[zone]["mute"] = "on" if (message[4] & 1 << 1) else "off"
+            _LOGGER.warning(
+                f"Command for Zone #{zone} retrieved (requested #{zone_number}) --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
+            )
+            return True
+        else:
+            _LOGGER.warning(
+                f"Sent command for Zone #{zone_number} but got #{zone} --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
+            )
 
-        #     _LOGGER.debug(
-        #         f"Command for Zone #{zone} retrieved (requested #{zone_number}) --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
-        #     )
-        #     return True
-        # else:
-        #     _LOGGER.warning(
-        #         f"Sent command for Zone #{zone_number} but got #{zone} --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
-        #     )
-
-        # return False
+        return False
 
     def set_source(self, zone, input):
         computed = 1
