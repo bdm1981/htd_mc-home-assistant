@@ -126,4 +126,4 @@ class HtdDevice(MediaPlayerEntity):
 
     @property
     def icon(self):
-        return "mdi:disc-player"
+        return "mdi:speaker"
