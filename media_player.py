@@ -90,9 +90,11 @@ class HtdDevice(MediaPlayerEntity):
 
     def volume_up(self):
         self.client.volume_up(self.zone)
+        self.client.query_zone(self.zone)
 
     def volume_down(self):
         self.client.volume_down(self.zone)
+        self.client.query_zone(self.zone)
 
     @property
     def is_volume_muted(self):
