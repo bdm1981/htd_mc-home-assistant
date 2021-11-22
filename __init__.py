@@ -26,6 +26,7 @@ CONFIG_SCHEMA = vol.Schema(
                     vol.Optional(CONF_PORT, default=DEFAULT_HTD_MC_PORT): cv.port,
                     vol.Optional(CONF_ZONES): vol.All(cv.ensure_list, [cv.string]),
                     vol.Optional(CONF_SOURCES): vol.All(cv.ensure_list, [cv.string]),
+                    vol.Optional(CONF_VOLUME): vol.All(cv.ensure_list, [cv.string]),
                 }
             ]
         )
