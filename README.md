@@ -1,8 +1,6 @@
-# HTD MC Series integration for Home Assistant
+# HTD Lync Series integration for Home Assistant
 
 Updating integration to support HTD Lync systems.
-
-WORK IN PROGRESS
 
 ## Installation steps
 
@@ -17,9 +15,22 @@ WORK IN PROGRESS
          - Dining Room
          - Living Room
        sources:
+         - hidden # add a hidden entry for any disabled zones
          - Chrome Cast
          - FM/AM
-     - host: 192.168.xxx.xxx
+         - 4
+         - 5
+         - 6
+         - 7
+         - 8
+         - 9
+         - 10
+         - 11
+         - 12
+         - 13
+         - 14
+         - 15
+         - 16
    ```
 3. Restart Home Assistant
 
