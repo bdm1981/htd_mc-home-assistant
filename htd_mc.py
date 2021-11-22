@@ -156,7 +156,7 @@ class HtdMcClient:
 
         setVol = vol + 0xC4
 
-        _LOGGER.warning(setVol)
+        _LOGGER.warning( f"Setting Volume: {sefVol}" )
 
         if vol_diff < 0:
             for k in range(abs(vol_diff)):
