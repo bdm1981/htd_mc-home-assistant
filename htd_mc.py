@@ -90,7 +90,8 @@ class HtdMcClient:
 
         # it seems that even though we send one zone we may not get what we want
         if zone in range(1, 12):
-            self.zones[zone]["power"] = "on" if (message[4] & 1 << 0) else "off"
+            self.zones[zone]["power"] = "on" if (
+                message[4] & 1 << 0) else "off"
             self.zones[zone]["source"] = message[8] + 1
             self.zones[zone]["vol"] = message[9] - 196 if message[9] else 0
             self.zones[zone]["mute"] = "on" if (message[4] & 1 << 1) else "off"
@@ -144,7 +145,7 @@ class HtdMcClient:
         self.send_command(cmd, zone)
 
     def set_volume(self, zone, vol):
-        if vol not in range(0, MAX_HTD_VOLUME):
+        if vol not in range(0, MAX_HTD_VOLUME, 5):
             _LOGGER.warning("Invald Volume")
             return
 
@@ -210,7 +211,8 @@ class HtdMcClient:
             return
 
         if zone == 0:
-            cmd = bytearray([0x02, 0x00, zone, 0x04, 0x55, 0x5B if pwr else 0x5C])
+            cmd = bytearray(
+                [0x02, 0x00, zone, 0x04, 0x55, 0x5B if pwr else 0x5C])
         else:
             cmd = bytearray([0x02, 0x00, zone, 0x04, 0x57 if pwr else 0x58])
 

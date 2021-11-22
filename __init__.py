@@ -15,7 +15,6 @@ DOMAIN = "htd_mc"
 
 CONF_ZONES = "zones"
 CONF_SOURCES = "sources"
-CONF_VOLUME = "volume"
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -26,7 +25,6 @@ CONFIG_SCHEMA = vol.Schema(
                     vol.Optional(CONF_PORT, default=DEFAULT_HTD_MC_PORT): cv.port,
                     vol.Optional(CONF_ZONES): vol.All(cv.ensure_list, [cv.string]),
                     vol.Optional(CONF_SOURCES): vol.All(cv.ensure_list, [cv.string]),
-                    vol.Optional(CONF_VOLUME): vol.All(cv.ensure_list, [cv.string]),
                 }
             ]
         )
@@ -46,7 +44,6 @@ def setup(hass: HomeAssistant, config: ConfigType):
         port = htd_item_config.get(CONF_PORT)
         zones = htd_item_config.get(CONF_ZONES)
         sources = htd_item_config.get(CONF_SOURCES)
-        volume = htd_item_config.get(CONF_VOLUME)
 
         if zones is None:
             zones = []
@@ -67,7 +64,6 @@ def setup(hass: HomeAssistant, config: ConfigType):
                 "zones": zones,
                 "sources": sources,
                 "client": HtdMcClient(host, port),
-                "volume": volume
             }
         )
 
