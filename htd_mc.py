@@ -227,7 +227,8 @@ class HtdMcClient:
             mySocket.connect((self.ip_address, self.port))
             mySocket.send(cmd)
             data = mySocket.recv(1024)
-            _LOGGER.debug(f"Command = {cmd} | Response = {data} ")
+            # _LOGGER.debug(f"Command = {cmd} | Response = {data} ")
+            _LOGGER.debug(f"Zone: {zone}")
             mySocket.close()
 
             return self.parse(cmd, data, zone)
