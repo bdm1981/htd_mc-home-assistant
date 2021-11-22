@@ -145,6 +145,7 @@ class HtdMcClient:
         self.send_command(cmd, zone)
 
     def set_volume(self, zone, vol):
+        _LOGGER.warning("Set Volume")
         if vol not in range(0, MAX_HTD_VOLUME):
             _LOGGER.warning("Invald Volume")
             return
@@ -190,6 +191,7 @@ class HtdMcClient:
         self.send_command(cmd, zone)
 
     def query_zone(self, zone):
+        _LOGGER.warning("Query Zone")
         if zone not in range(1, 12):
             _LOGGER.warning("Invalid Zone")
             return
@@ -228,7 +230,7 @@ class HtdMcClient:
             mySocket.send(cmd)
             data = mySocket.recv(1024)
             # _LOGGER.debug(f"Command = {cmd} | Response = {data} ")
-            _LOGGER.debug(f"Zone: {zone}")
+            _LOGGER.warning(f"Zone: {zone}")
             mySocket.close()
 
             return self.parse(cmd, data, zone)
