@@ -46,7 +46,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 
 
 class HtdDevice(MediaPlayerEntity):
-    def __init__(self, id, client,  sources, zone, zone_name):
+    def __init__(self, id, client, sources, zone, zone_name):
         self.zone = zone
         self.id = id
         self.zone_name = zone_name
@@ -71,10 +71,10 @@ class HtdDevice(MediaPlayerEntity):
 
     @property
     def state(self):
-        if self.zone_info['power'] == 'unknown':
+        if self.zone_info["power"] == "unknown":
             return STATE_UNKNOWN
 
-        return STATE_ON if self.zone_info['power'] == 'on' else STATE_OFF
+        return STATE_ON if self.zone_info["power"] == "on" else STATE_OFF
 
     def turn_on(self):
         self.client.set_power(self.zone, 1)
@@ -84,7 +84,7 @@ class HtdDevice(MediaPlayerEntity):
 
     @property
     def volume_level(self):
-        return self.zone_info['vol'] / MAX_HTD_VOLUME
+        return self.zone_info["vol"] / MAX_HTD_VOLUME
 
     def set_volume_level(self, new_volume):
         new_vol = int(MAX_HTD_VOLUME * new_volume)
