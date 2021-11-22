@@ -86,26 +86,28 @@ class HtdMcClient:
         if len(message) != 14:
             return False
 
-        zone = message[2]
+        return True
 
-        # it seems that even though we send one zone we may not get what we want
-        if zone in range(1, 12):
-            self.zones[zone]["power"] = "on" if (
-                message[4] & 1 << 0) else "off"
-            self.zones[zone]["source"] = message[8] + 1
-            self.zones[zone]["vol"] = message[9] - 196 if message[9] else 0
-            self.zones[zone]["mute"] = "on" if (message[4] & 1 << 1) else "off"
+        # zone = message[2]
 
-            _LOGGER.debug(
-                f"Command for Zone #{zone} retrieved (requested #{zone_number}) --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
-            )
-            return True
-        else:
-            _LOGGER.warning(
-                f"Sent command for Zone #{zone_number} but got #{zone} --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
-            )
+        # # it seems that even though we send one zone we may not get what we want
+        # if zone in range(1, 12):
+        #     self.zones[zone]["power"] = "on" if (
+        #         message[4] & 1 << 0) else "off"
+        #     self.zones[zone]["source"] = message[8] + 1
+        #     self.zones[zone]["vol"] = message[9] - 196 if message[9] else 0
+        #     self.zones[zone]["mute"] = "on" if (message[4] & 1 << 1) else "off"
 
-        return False
+        #     _LOGGER.debug(
+        #         f"Command for Zone #{zone} retrieved (requested #{zone_number}) --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
+        #     )
+        #     return True
+        # else:
+        #     _LOGGER.warning(
+        #         f"Sent command for Zone #{zone_number} but got #{zone} --> Cmd = {to_correct_string(cmd)} | Message = {to_correct_string(message)}"
+        #     )
+
+        # return False
 
     def set_source(self, zone, input):
         computed = 1
@@ -133,7 +135,7 @@ class HtdMcClient:
             _LOGGER.warning("Invalid Zone")
             return
 
-        zone_info = self.query_zone(zone);
+        zone_info = self.query_zone(zone)
 
         if zone_info["vol"] < 60:
             setVol = zone_info["vol"] + 5 + 0xC4
@@ -145,13 +147,12 @@ class HtdMcClient:
             _LOGGER.warning("Invalid Zone")
             return
 
-        zone_info = self.query_zone(zone);
+        zone_info = self.query_zone(zone)
 
         if zone_info["vol"] >= 5:
             setVol = zone_info["vol"] - 5 + 0xC4
             cmd = bytearray([0x02, 0x01, zone, 0x15, setVol])
             self.send_command(cmd, zone)
-   
 
     def set_volume(self, zone, vol):
         _LOGGER.warning("Set Volume")
@@ -167,7 +168,7 @@ class HtdMcClient:
 
         setVol = vol + 0xC4
 
-        _LOGGER.warning( f"Setting Volume: {setVol}" )
+        _LOGGER.warning(f"Setting Volume: {setVol}")
 
         if vol_diff < 0:
             for k in range(abs(vol_diff)):
@@ -240,7 +241,6 @@ class HtdMcClient:
             mySocket.send(cmd)
             data = mySocket.recv(1024)
             # _LOGGER.debug(f"Command = {cmd} | Response = {data} ")
-            _LOGGER.warning(f"Zone: {zone}")
             mySocket.close()
 
             return self.parse(cmd, data, zone)
