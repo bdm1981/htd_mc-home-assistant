@@ -1,16 +1,15 @@
 """Support for Home Theatre Direct's MC series"""
+from .htd_mc import DEFAULT_HTD_MC_PORT, HtdMcClient
+from homeassistant.helpers.typing import ConfigType, Dict
+import homeassistant.helpers.config_validation as cv
+from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PASSWORD, CONF_USERNAME
+from homeassistant.helpers import config_validation as cv, discovery
+from homeassistant.core import HomeAssistant
 import voluptuous as vol
 import logging
 
 _LOGGER = logging.getLogger(__name__)
 
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers import config_validation as cv, discovery
-from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PASSWORD, CONF_USERNAME
-import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.typing import ConfigType, Dict
-
-from .htd_mc import DEFAULT_HTD_MC_PORT, HtdMcClient
 
 DOMAIN = "htd_mc"
 
@@ -67,6 +66,7 @@ def setup(hass: HomeAssistant, config: ConfigType):
                 "zones": zones,
                 "sources": sources,
                 "client": HtdMcClient(host, port),
+                "volume": volume
             }
         )
 
