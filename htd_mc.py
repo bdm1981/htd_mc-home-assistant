@@ -151,6 +151,7 @@ class HtdMcClient:
             return
 
         zone_info = self.query_zone(zone)
+        _LOGGER.warning(f"Current Volume: {zone_info['vol']}")
 
         vol_diff = vol - zone_info["vol"]
         start_time = time.time()
