@@ -128,21 +128,30 @@ class HtdMcClient:
 
         self.send_command(cmd, zone)
 
-    def volume_up(self, zone, vol):
+    def volume_up(self, zone):
         if zone not in range(1, 12):
             _LOGGER.warning("Invalid Zone")
             return
 
-        cmd = bytearray([0x02, 0x01, zone, 0x15, vol])
-        self.send_command(cmd, zone)
+        zone_info = self.query_zone(zone);
 
-    def volume_down(self, zone, vol):
+        if zone_info["vol"] < 60:
+            setVol = zone_info["vol"] + 5 + 0xC4
+            cmd = bytearray([0x02, 0x01, zone, 0x15, setVol])
+            self.send_command(cmd, zone)
+
+    def volume_down(self, zone):
         if zone not in range(1, 12):
             _LOGGER.warning("Invalid Zone")
             return
 
-        cmd = bytearray([0x02, 0x01, zone, 0x15, vol])
-        self.send_command(cmd, zone)
+        zone_info = self.query_zone(zone);
+
+        if zone_info["vol"] >= 5:
+            setVol = zone_info["vol"] - 5 + 0xC4
+            cmd = bytearray([0x02, 0x01, zone, 0x15, setVol])
+            self.send_command(cmd, zone)
+   
 
     def set_volume(self, zone, vol):
         _LOGGER.warning("Set Volume")

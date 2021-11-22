@@ -89,16 +89,10 @@ class HtdDevice(MediaPlayerEntity):
         return self.zone_info["vol"] / MAX_HTD_VOLUME
 
     def volume_up(self):
-        # new_vol = int(60 * new_volume)
-        # _LOGGER.warning(f"new level: {new_vol}")
-        _LOGGER.warning(self)
-        self.client.set_volume(self.zone, 50)
+        self.client.volume_up(self.zone)
 
     def volume_down(self):
-        # new_vol = int(60 * new_volume)
-        # _LOGGER.warning(f"new level: {new_vol}")
-        _LOGGER.warning(self)
-        self.client.set_volume(self.zone, 30)
+        self.client.volume_down(self.zone)
 
     @property
     def is_volume_muted(self):
