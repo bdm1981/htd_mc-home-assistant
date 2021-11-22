@@ -47,6 +47,11 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     add_entities(entities)
 
 
+def hide_source(source):
+    if source != "hidden":
+        return source
+
+
 class HtdDevice(MediaPlayerEntity):
     def __init__(self, id, client, sources, zone, zone_name):
         self.zone = zone
@@ -109,7 +114,7 @@ class HtdDevice(MediaPlayerEntity):
 
     @property
     def source_list(self):
-        return self.sources
+        return filter(hide_source, self.sources)
 
     @property
     def media_title(self):

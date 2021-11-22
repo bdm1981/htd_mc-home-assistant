@@ -51,11 +51,11 @@ def setup(hass: HomeAssistant, config: ConfigType):
         if sources is None:
             sources = []
 
-        # the device has 6 zones, so we default to Zone X
+        # the device has 12 zones, so we default to Zone X
         for i in range(len(zones), 12):
             zones.append("Zone " + str(i + 1))
 
-        # the device has 6 sources, so we default to Source X
+        # the device has 12 sources, so we default to Source X
         for i in range(len(sources), 12):
             sources.append("Source " + str(i + 1))
 
