@@ -145,7 +145,7 @@ class HtdMcClient:
         self.send_command(cmd, zone)
 
     def set_volume(self, zone, vol):
-        if vol not in range(0, MAX_HTD_VOLUME, 5):
+        if vol not in range(0, MAX_HTD_VOLUME):
             _LOGGER.warning("Invald Volume")
             return
 
@@ -156,7 +156,7 @@ class HtdMcClient:
 
         setVol = vol + 0xC4
 
-        self.set_power(zone, 1)
+        _LOGGER.warning(setVol)
 
         if vol_diff < 0:
             for k in range(abs(vol_diff)):
