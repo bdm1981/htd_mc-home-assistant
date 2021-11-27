@@ -1,6 +1,7 @@
 {
-    "domain": "htd_mc",
-    "name": "HTD MC Series",
-    "dependencies": [],
-    "requirements": []
+  "domain": "htd_mc",
+  "name": "HTD MC Series",
+  "version": "1.0.0",
+  "dependencies": [],
+  "requirements": []
 }
