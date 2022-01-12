@@ -1,10 +1,24 @@
 htd_mc:
- - host: 192.168.XXX.XXX
-   port: 10006 # optional 
-   zones: # optional, 
-    - Kitchen
-    - Dining Room
-    - Living Room
-   sources: # optional, 
-    - Chrome Cast
-    - FM/AM
+  - host: 192.168.1.123
+    port: 10006
+    zones:
+      - Kitchen
+      - Dining Room
+      - Living Room
+    sources:
+      - hidden # add a hidden entry for any disabled zones
+      - Chrome Cast
+      - FM/AM
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
